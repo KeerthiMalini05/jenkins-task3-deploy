@@ -18,7 +18,7 @@ pipeline {
         stage('DEV_DEPLOY'){
             steps{
                 sh 'mvn clean package'
-                sh 'docker build -t keerthi-jenkins-task3:latest .'   
+                sh 'docker build -t keerthi-jenkins-task3:${env.tagvalue} .'   
         }
         }
       
