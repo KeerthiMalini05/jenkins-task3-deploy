@@ -3,7 +3,7 @@ pipeline {
 
     stages {
         
-        stage('User Input') {
+        stage('DEV_DEPLOY') {
 
 
             steps {
@@ -13,16 +13,12 @@ pipeline {
                         env.YourTag = input  message: 'What are we deploying today?',ok : 'Deploy',id :'tag_id',
                                         parameters:[choice(choices: CHOICES, description: 'Select a tag for this build', name: 'TAG')]
                         }           
+                sh 'mvn clean package'
+                sh 'docker build -t keerthi-jenkins-task3:${env.YourTag} .'
                 echo "Deploying ${env.YourTag}. Have a nice day."
             }
         }
       
-        stage('DEV_DEPLOY'){
-            steps{
-                sh 'mvn clean package'
-                sh 'docker build -t keerthi-jenkins-task3: sh ${env.YourTag} .'   
-            }
-        }
         stage('QA_DEPLOY'){
             input{
                 message "should approve ?"
