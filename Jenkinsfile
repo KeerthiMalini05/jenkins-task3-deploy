@@ -34,7 +34,7 @@ pipeline {
 
         stage('CLEANUP'){
             steps{
-                sh 'docker image prune --all'
+                sh 'docker image prune -f --all'
             }
         }
     }
