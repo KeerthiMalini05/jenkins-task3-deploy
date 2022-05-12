@@ -2,25 +2,26 @@ pipeline {
     agent any
 
     stages {
-        stage('build'){
+      
+        stage('DEV_DEPLOY'){
             steps{
-            sh 'mvn clean package'
+                sh 'mvn clean package'
+                sh 'docker build -t keerthi-jenkins-task3:latest .'   
             }
         }
-
-        stage('deploy'){
-            steps{
-                sh 'docker build -t keerthi-jenkins-task3 .'   
+        stage('QA_DEPLOY'){
+            input{
+                message "should approve ?"
+                ok "Yes approve"
             }
+            steps{
+                echo 'deploy approved'
+            } 
         }
 
-        stage('push ECR'){
+        stage('CLEANUP'){
             steps{
-                withDockerRegistry( [ credentialsId: "ecr:us-east-1:aws-credentials", url: "https://590852515231.dkr.ecr.us-east-1.amazonaws.com" ] ){
-                    sh 'docker tag keerthi-jenkins-task3:latest 590852515231.dkr.ecr.us-east-1.amazonaws.com/keerthi-jenkins-task3:$BUILD_NUMBER'
-                    sh 'docker push 590852515231.dkr.ecr.us-east-1.amazonaws.com/keerthi-jenkins-task3:$BUILD_NUMBER'
-                }  
-
+                docker image prune --all
             }
         }
     }
