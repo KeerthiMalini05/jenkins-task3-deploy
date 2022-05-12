@@ -18,9 +18,7 @@ pipeline {
         stage('DEV_DEPLOY'){
             steps{
                 sh 'mvn clean package'
-                withDockerRegistry( [ credentialsId: "ecr:us-east-1:aws-credentials", url: "https://590852515231.dkr.ecr.us-east-1.amazonaws.com" ] ){
-                sh 'docker run -d -p 8082:8080 590852515231.dkr.ecr.us-east-1.amazonaws.com/keerthi-jenkins-task3:$tagvalue'   
-            }
+                sh 'docker build -t keerthi-jenkins-task3:latest .'   
         }
         }
       
@@ -31,9 +29,7 @@ pipeline {
             }
             steps{
                 echo 'deploy approved'
-                withDockerRegistry( [ credentialsId: "ecr:us-east-1:aws-credentials", url: "https://590852515231.dkr.ecr.us-east-1.amazonaws.com" ] ){
-                    sh 'docker run -d -p 8082:8080 590852515231.dkr.ecr.us-east-1.amazonaws.com/keerthi-jenkins-task3:$tagvalue'
-                }
+               
             } 
         }
 
