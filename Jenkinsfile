@@ -11,7 +11,7 @@ pipeline {
                                           description: '',
                                           name: 'tagvalue')]
                         }           
-                echo "Deploying ${env.tagvalue}. Have a nice day."
+              
             }
         }
         
